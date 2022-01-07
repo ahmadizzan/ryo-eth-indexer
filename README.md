@@ -1,19 +1,18 @@
-
 # Run Your Own Ethereum Indexer
 
 Run your own simple Ethereum indexer implementation, indexing events emitted by smart contracts off-chain.
 
-What is the purpose of this? indexing smart contracts data off-chain could enable us to do more complex queries to the data and also process them without depending on the contracts' implementation. On top of that, accessing data directly via calls to the smart contracts might not offer the ideal performance for your application needs.
+**What is the purpose of this?** indexing smart contracts data off-chain could enable us to do more complex queries to the data and also process them without depending on the contracts' implementation. On top of that, accessing data directly via calls to the smart contracts might not offer the ideal performance for your application needs.
 
-This project is a simple exploration to how we might index the data, as straight forward as possible.
+This project is a simple exploration of how we might index the data, made as straightforward as possible.
 
-For this demo, we will be using `DummyExchange`, a simple contract which will emit `Transaction` event everytime we call `DummyExchange.transact()`. The event's spec is defined below:
+For this demo, we will be using `DummyExchange`, a simple contract that will emit `Transaction` event every time we call `DummyExchange.transact()`. The event's spec is defined below:
 
 ```
 event Transaction(address buyer, string currency, string amount);
 ```
 
-We will create a corresponding data model to model the `Transaction` events and store them locally in an in-memory sqlite instance. We will listen to the events emitted by the smart contracts and insert the event to our local db, which we could queried later on.
+We will create a corresponding data model to model the `Transaction` events and store them locally in an in-memory sqlite instance. We will listen to the events emitted by the smart contracts and insert the event to our local db, which we could query later on.
 
 ## Requirements
 1. `node js (tested on v16.13.1)`
@@ -35,7 +34,7 @@ npx hardhat node
 npx hardhat run --network localhost scripts/deploy.js
 ```
 
-NOTE: after deploying the contracts, the deployment info (deployed contract address, etc) will be stored in `deploymeny-info.json`.
+NOTE: after deploying the contracts, the deployment info (deployed contract address, etc) will be stored in `deployment-info.json`.
 
 #### Simulate indexer
 
@@ -51,7 +50,7 @@ node scripts/server.js
 
 ***Step 2:*** run call transactions
 
-This will create new transactions to `DummyExchange`, which will be listened and processed by `scripts/server.js`. In a separate terminal tab/window, run this command:
+This will create new transactions to `DummyExchange`, which will be listened to and processed by `scripts/server.js`. In a separate terminal tab/window, run this command:
 
 ```
 node scripts/call-transactions.js
@@ -75,7 +74,7 @@ Aggregated transactions data:
 }
 ```
 
-Which shows that the events were listened and indexed by the server and the server outputs the aggredated indexed data. In the above's example, we can see that user with address "0x709..." have 2 `ETH` transactions, 1 `YFI` transaction, and 1 `GRT` transaction (which we indexed in our server!).
+This shows that the events were listened to and indexed by the server and the server outputs the aggregated indexed data. In the above's example, we can see that the user with address "0x709..." has 2 `ETH` transactions, 1 `YFI` transaction, and 1 `GRT` transaction (which we indexed in our server!).
 
 ## Run tests
 ```
