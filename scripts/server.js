@@ -24,17 +24,25 @@ async function initPopulateData() {
         currency: "grt",
         amount: "0.3"
     });
+    // TODO query past events
+}
+
+async function init() {
+    await init();
+    await initPopulateData();
 }
 
 (async () => {
-    await initDb();
-    await initPopulateData();
+    await init();
 
     const transactions = await Transaction.findAll();
-
     console.log("Transactions:")
     console.log("===============")
     for (const tx of transactions) {
         console.log(tx.buyer, tx.currency, tx.amount)
     }
+
+    // TODO: add listener to new events
+
+    // TODO: add API to query on top of this
 })();
